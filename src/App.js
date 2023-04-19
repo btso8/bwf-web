@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
+import "react-notifications/lib/notifications.css";
+import Header from "./components/layout/header";
+import Main from "./components/layout/main";
+import Sidebar from "./components/layout/sidebar";
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "./theme";
+import { BrowserRouter as Router } from "react-router-dom";
+import { AuthProvider } from "./hooks/useAuth";
+import { NotificationContainer } from "react-notifications";
 
 function App() {
+  const user = JSON.parse(localStorage.getItem("bwf-user"));
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <ThemeProvider theme={theme}>
+        <AuthProvider user={user}>
+          <div className="App">
+            <Header />
+            <div className="general-content">
+              <Sidebar />
+              <Main />
+            </div>
+          </div>
+          <NotificationContainer />
+        </AuthProvider>
+      </ThemeProvider>
+    </Router>
   );
 }
 
